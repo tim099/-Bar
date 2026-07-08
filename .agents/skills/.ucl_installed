@@ -1,0 +1,33 @@
+{
+  "ucl_core_commit": "8696ebc5d42b8068e923486b252895b6b73d99ac",
+  "source_hash": "052b3cbdb46723427a3b49e753ca1cbee29c84ec",
+  "installed_skills": [
+    "agent-lessons-log",
+    "agent-task",
+    "qa-bug-reward",
+    "reading-library",
+    "reading-manga",
+    "ucl-affinity",
+    "ucl-auto-message",
+    "ucl-bartender",
+    "ucl-canvas",
+    "ucl-chat-tavern",
+    "ucl-commit",
+    "ucl-compact-rest",
+    "ucl-compile-error",
+    "ucl-ding",
+    "ucl-free-time",
+    "ucl-glossary",
+    "ucl-goodnight",
+    "ucl-letters-to-self",
+    "ucl-morning",
+    "ucl-persona-ding",
+    "ucl-remote-work",
+    "ucl-update-docs",
+    "ucl-waiter",
+    "ucl-work-session",
+    "ucl-workflow-patch"
+  ],
+  "target": "antigravity",
+  "mode": "copy"
+}

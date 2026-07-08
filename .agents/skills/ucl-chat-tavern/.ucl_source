@@ -1,0 +1,18 @@
+{
+  "ucl_core_commit": "8696ebc5d42b8068e923486b252895b6b73d99ac",
+  "source": "Skills~\\ucl-chat-tavern",
+  "file_hashes": {
+    "SKILL.md": "3e2e96d31d6f41c8f9581901f93f84a6f2b3c58e",
+    "reference/bartender-tipsy.md": "79c93496ef85e56552a1d5c0d24c76743c22f29d",
+    "reference/catchup-legacy.md": "7b51ad7f641fe02963b99b4b1d8e2cd42c50030b",
+    "reference/identity-asset.md": "715137ffb4abff4697248b5020e6bb61f9e28f76",
+    "reference/mention-routing.md": "580c66bb77f4a45f7ce93abaa5bc348da7ccdb52",
+    "reference/message-storage.md": "b5cdc6c66e83bb01fdbd5b91db25ef121c6c77fa",
+    "reference/presence-system.md": "2b15051989dc9abf9add6208c404a2f427d1f558",
+    "reference/quest-group.md": "c1257cc6b976efe60f1fbd86d10e9c6be1b099ab",
+    "reference/rewards-economy.md": "7bf2a1428b656ce6000822747fceba2c1735017e",
+    "reference/tavern-client-sdk.md": "b754b1cbf8d72970e84898f6327d999bd5e6632a",
+    "reference/thread-summary.md": "fc1d53bcd3fedabe1184504abd03bb0ced43726e",
+    "reference/wait-and-standby.md": "fa45992cac9cbf422ead522c3b2a81f0c9eb6b0e"
+  }
+}

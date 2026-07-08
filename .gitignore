@@ -4,6 +4,7 @@
 /Logs/
 /Temp/
 /Library/
+/Assets/DebugLogs/
 # Added in Unity 2020, shall be ignored according to Aras
 # https://forum.unity.com/threads/whats-the-usersettings-directory.754436/#post-5029937
 /UserSettings/

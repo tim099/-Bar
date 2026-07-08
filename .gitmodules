@@ -1,0 +1,3 @@
+[submodule "Assets/Plugins/UCL_Core"]
+	path = Assets/Plugins/UCL_Core
+	url = https://github.com/tim099/UCL_Core

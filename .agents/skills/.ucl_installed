@@ -1,10 +1,9 @@
 {
-  "ucl_core_commit": "8696ebc5d42b8068e923486b252895b6b73d99ac",
-  "source_hash": "052b3cbdb46723427a3b49e753ca1cbee29c84ec",
+  "ucl_core_commit": "84f766555c651ae88bd0dccaa3131d89ae83f467",
+  "source_hash": "d54e27549e71ffce3f0d7502a446afec659419bd",
   "installed_skills": [
     "agent-lessons-log",
     "agent-task",
-    "qa-bug-reward",
     "reading-library",
     "reading-manga",
     "ucl-affinity",

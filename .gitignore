@@ -1,0 +1,65 @@
+# Notice the project assumming git config --global core.ignorecase true
+
+# Would like to keep /Logs/ untracked to remove, but since 2020 Unity will keep /Logs/ contents opened and unable to remove
+/Logs/
+/Temp/
+/Library/
+# Added in Unity 2020, shall be ignored according to Aras
+# https://forum.unity.com/threads/whats-the-usersettings-directory.754436/#post-5029937
+/UserSettings/
+
+# Unity Generated Solution files
+/*.sln
+/*.csproj
+
+# Visual Studio DB
+/.vs/
+
+# ReSharper Personal Config
+/*.DotSettings.user
+
+# Visual Studio Code
+/.vscode/
+/obj/
+
+#Visual Studio 2022
+.vsconfig
+
+# MonoDevelop
+/*.userprefs
+
+# FMod
+# Ignore the Cache folder since it is updated locally.
+/Assets/Plugins/FMOD/Cache/*
+# Ignore bank files in the StreamingAssets folder.
+/Assets/StreamingAssets/**/*.bank
+/Assets/StreamingAssets/**/*.bank.meta
+# Log files can be ignored.
+fmod_editor.log
+# Ignore whole folder than add necessary files into white list
+/FMODAssets/*
+!/FMODAssets/Assets/
+!/FMODAssets/Metadata/
+!/FMODAssets/*.fspro
+
+# Windows File Explorer Thumbnail Cache
+Thumbs.db
+Thumbs.db.meta
+# Mac Finder Cache
+.DS_Store
+.DS_Store.meta
+# These should be ignored by default global gitignore, but from time to time we got these from packages or other sources
+
+# Editor save data
+Assets/EditorSaveData/*
+
+/.utmp
+Assets/.Credentials/
+
+settings.local.json
+
+ProjectSettings/UCL_CoreBootstrap.version
+ProjectSettings/UCL_CoreTemplatePush.skipped.json
+.compile_status.json
+
+DebugLogs/*

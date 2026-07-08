@@ -1,6 +1,6 @@
 [submodule "Assets/Plugins/UCL_Core"]
 	path = Assets/Plugins/UCL_Core
 	url = https://github.com/tim099/UCL_Core
-[submodule "Valhalla"]
-	path = Valhalla
+[submodule "AgentCommands"]
+	path = AgentCommands
 	url = https://github.com/tim099/Valhalla.git

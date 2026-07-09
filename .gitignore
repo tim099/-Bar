@@ -29,20 +29,6 @@
 # MonoDevelop
 /*.userprefs
 
-# FMod
-# Ignore the Cache folder since it is updated locally.
-/Assets/Plugins/FMOD/Cache/*
-# Ignore bank files in the StreamingAssets folder.
-/Assets/StreamingAssets/**/*.bank
-/Assets/StreamingAssets/**/*.bank.meta
-# Log files can be ignored.
-fmod_editor.log
-# Ignore whole folder than add necessary files into white list
-/FMODAssets/*
-!/FMODAssets/Assets/
-!/FMODAssets/Metadata/
-!/FMODAssets/*.fspro
-
 # Windows File Explorer Thumbnail Cache
 Thumbs.db
 Thumbs.db.meta
@@ -64,3 +50,5 @@ ProjectSettings/UCL_CoreTemplatePush.skipped.json
 .compile_status.json
 
 DebugLogs/*
+
+/Build/

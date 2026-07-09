@@ -1,0 +1,20 @@
+{
+    "name": "Bar.TestRunner.Editor",
+    "rootNamespace": "Bar.TestRunnerEditor",
+    "references": [
+        "UCL_Core",
+        "UnityEditor.TestRunner",
+        "UnityEngine.TestRunner"
+    ],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

@@ -1,7 +1,3 @@
 {
-  "ucl_core_commit": "84f766555c651ae88bd0dccaa3131d89ae83f467",
-  "source": "Skills~\\ucl-morning",
-  "file_hashes": {
-    "SKILL.md": "85ee28934a7fc61adddec8eaa1244bbc917fad85"
-  }
+  "source": "Skills~\\ucl-morning"
 }

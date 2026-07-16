@@ -1,7 +1,3 @@
 {
-  "ucl_core_commit": "84f766555c651ae88bd0dccaa3131d89ae83f467",
-  "source": "Skills~\\ucl-canvas",
-  "file_hashes": {
-    "SKILL.md": "8c60537bd768b2b44fcb6811f75306fa63c1f9cc"
-  }
+  "source": "Skills~\\ucl-canvas"
 }

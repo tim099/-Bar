@@ -1,7 +1,3 @@
 {
-  "ucl_core_commit": "84f766555c651ae88bd0dccaa3131d89ae83f467",
-  "source": "Skills~\\ucl-glossary",
-  "file_hashes": {
-    "SKILL.md": "9b547b002f17681e8d1108f90a595f86c1d1f340"
-  }
+  "source": "Skills~\\ucl-glossary"
 }

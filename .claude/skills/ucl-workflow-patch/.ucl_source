@@ -1,7 +1,3 @@
 {
-  "ucl_core_commit": "84f766555c651ae88bd0dccaa3131d89ae83f467",
-  "source": "Skills~\\ucl-workflow-patch",
-  "file_hashes": {
-    "SKILL.md": "7ab9a36d9bf731c3c195ccb5e4656cfafb3fe666"
-  }
+  "source": "Skills~\\ucl-workflow-patch"
 }

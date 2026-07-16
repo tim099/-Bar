@@ -1,6 +1,4 @@
 {
-  "ucl_core_commit": "84f766555c651ae88bd0dccaa3131d89ae83f467",
-  "source_hash": "d54e27549e71ffce3f0d7502a446afec659419bd",
   "installed_skills": [
     "agent-lessons-log",
     "agent-task",
@@ -14,6 +12,7 @@
     "ucl-commit",
     "ucl-compact-rest",
     "ucl-compile-error",
+    "ucl-core-paths",
     "ucl-ding",
     "ucl-free-time",
     "ucl-glossary",
@@ -23,7 +22,6 @@
     "ucl-persona-ding",
     "ucl-remote-work",
     "ucl-update-docs",
-    "ucl-waiter",
     "ucl-work-session",
     "ucl-workflow-patch"
   ],

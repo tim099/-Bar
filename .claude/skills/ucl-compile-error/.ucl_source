@@ -1,7 +1,3 @@
 {
-  "ucl_core_commit": "84f766555c651ae88bd0dccaa3131d89ae83f467",
-  "source": "Skills~\\ucl-compile-error",
-  "file_hashes": {
-    "SKILL.md": "d66ef9716ed2aec5a93c7fda41798bea37fb3775"
-  }
+  "source": "Skills~\\ucl-compile-error"
 }

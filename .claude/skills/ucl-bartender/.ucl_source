@@ -1,7 +1,3 @@
 {
-  "ucl_core_commit": "84f766555c651ae88bd0dccaa3131d89ae83f467",
-  "source": "Skills~\\ucl-bartender",
-  "file_hashes": {
-    "SKILL.md": "5f22936ea0d9770a00a9dd0b6e1818d62830ce93"
-  }
+  "source": "Skills~\\ucl-bartender"
 }

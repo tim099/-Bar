@@ -1,7 +1,3 @@
 {
-  "ucl_core_commit": "84f766555c651ae88bd0dccaa3131d89ae83f467",
-  "source": "Skills~\\reading-library",
-  "file_hashes": {
-    "SKILL.md": "dbb382a74446110ccf48c0ccc270907597545a5e"
-  }
+  "source": "Skills~\\reading-library"
 }

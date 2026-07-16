@@ -1,7 +1,3 @@
 {
-  "ucl_core_commit": "84f766555c651ae88bd0dccaa3131d89ae83f467",
-  "source": "Skills~\\ucl-auto-message",
-  "file_hashes": {
-    "SKILL.md": "b06607c0991193f1cf333c12abfb2bf8864b811d"
-  }
+  "source": "Skills~\\ucl-auto-message"
 }

@@ -4,3 +4,6 @@
 [submodule "AgentCommands"]
 	path = AgentCommands
 	url = https://github.com/tim099/Valhalla.git
+[submodule "Docs/Glossary"]
+	path = Docs/Glossary
+	url = https://github.com/tim099/Glossary.git

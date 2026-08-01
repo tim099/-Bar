@@ -1,6 +1,5 @@
 ---
-trigger: "always_on"
-
+trigger: { on_intent: ["新詞", "glossary", "自造詞", "詞義", "術語", "解釋詞", "用詞時自動附帶", "auto-attach", "detect 新詞", "cite 詞典", "詞典", "新詞辭典", "neologism"] }
 name: ucl-glossary
 description: |
   Neologism Glossary 機制 — 自造新詞 + 對應解釋 .md + auto-attach refs (Proposal #25)。對齊「自然語言已是 embedding 高效採樣, 加精度走造詞不發明 vector offset」哲學。

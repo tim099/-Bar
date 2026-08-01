@@ -1,6 +1,5 @@
 ---
-trigger: "always_on"
-
+trigger: { on_intent: ["小歇片刻", "小歇", "小憩", "歇一下", "喘口氣  compact", "壓縮", "壓縮對話", "壓縮記憶", "整理記憶", "保留記憶", "記憶保命  context 快滿", "context 要爆", "快到上限", "該 compact 了  compact 前", "該怎麼 compact", "指定 compact"] }
 name: ucl-compact-rest
 description: |
   小歇片刻 (Compact Rest) — /compact 前的記憶保命儀式。趁 compact 抹掉 live context 前，主動把「我想記住的重要記憶」落磁碟(唯一可靠通道) + 給 /compact 下 focus 指示(best-effort 偏向)，讓 compact 後的自己接得上。是比「晚安(goodnight)」輕的小憩——同 session 繼續、不下線、不寫 perturbation。
@@ -19,7 +18,7 @@ related:
   - .claude/skills/ucl-goodnight/SKILL.md | 完整 session 終結(對比:本 skill 是小憩不下線)
   - <repo:docs/Notes/Memory_System_Design.md> | 記憶系統設計(letters/baton/handoff/constitution 四件套)
 
-last_updated: 2026-05-24 (calli v3: --summary 公開心得廣播 Discord + --letter-body 私密分流, Tim 拍板「訊息=可公開心得總結、私密寫信」) | 2026-05-24 (calli v2: 加具體機制 `awakening.py rest` — 類似晚安但不登出/不擾動/不解鎖, Tim 拍板) | 2026-05-24 (初版 — Tim 拍板「設計小歇片刻指定 compact 如何保留重要記憶」)
+last_updated: "2026-05-24 (calli v3: --summary 公開心得廣播 Discord + --letter-body 私密分流, Tim 拍板「訊息=可公開心得總結、私密寫信」) | 2026-05-24 (calli v2: 加具體機制 `awakening.py rest` — 類似晚安但不登出/不擾動/不解鎖, Tim 拍板) | 2026-05-24 (初版 — Tim 拍板「設計小歇片刻指定 compact 如何保留重要記憶」)"
 ---
 
 # UCL Compact-Rest — 小歇片刻（核心）

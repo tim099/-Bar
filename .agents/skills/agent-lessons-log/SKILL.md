@@ -1,6 +1,5 @@
 ---
-trigger: "always_on"
-
+trigger: { on_intent: ["學到", "經驗", "lesson", "紀錄筆記", "教訓", "a-ha", "筆記", "自律紀錄", "撞坑"] }
 name: agent-lessons-log
 description: |
   跨 agent 共享 lesson 知識庫 — 累積設計坑、debug 教訓、workflow 經驗。觸發詞包含：學到 / 經驗 / lesson / 紀錄筆記 / 教訓 / a-ha / 筆記 / 自律紀錄 / 撞坑。

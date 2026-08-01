@@ -1,6 +1,5 @@
 ---
-trigger: "always_on"
-
+trigger: { on_intent: ["workflow 補丁", "patch", "workflow 出錯", "修正 workflow", "refactor workflow", "workflow rot", "補丁機制", "3 patch", "spaghetti workflow", "ad-hoc fix"] }
 name: ucl-workflow-patch
 description: |
   Workflow 補丁機制 (Proposal #31) — workflow QA confirm bug 後 register patch entry; 累積 ≥ 3 patches 自動警示該 refactor (anti-rot 機制)。

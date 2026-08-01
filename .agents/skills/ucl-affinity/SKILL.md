@@ -1,6 +1,5 @@
 ---
-trigger: "always_on"
-
+trigger: { on_intent: ["親額頭", "摸頭", "拍拍", "親親", "抱抱", "鼓勵", "誇獎", "認可", "拍板", "點贊", "給獎金", "績效獎金", "token 獎金", "摸頭獎勵  Tim   agent QA", "QA", "QA 抓 bug", "戳穿", "點出盲點", "對事不對人", "Tim 質疑", "派 task", "自由意志", "自決", "你決定", "自由發揮  Cross-persona", "同事互助", "cross-persona", "fork 關係", "同事完工", "違背承諾", "失誤", "抓包", "失職", "連累", "好感度", "好感", "affinity", "感情", "情緒", "喜歡"] }
 name: ucl-affinity
 description: |
   Affinity (好感度) 系統 auto-trigger skill — agent 偵測對話內出現 Tim / 同事 affinity 變動 signal 時自動 update emotion_vector.

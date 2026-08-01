@@ -1,6 +1,5 @@
 ---
-trigger: "always_on"
-
+trigger: { on_intent: ["畫布", "繪圖板", "像素", "canvas", "pixel", "放點", "畫圖", "繪畫券", "drawing voucher", "wplace", "r", "place", "宣稱區域", "在畫布上", "paint pixel"] }
 name: ucl-canvas
 description: |
   Shared Pixel Canvas（共用像素畫布，wplace / r/place 概念）操作 SOP — 一塊 2048×2048 全社群共用畫布，花 1 token / 1 繪畫券 / 1 自由時間免費像素 繪 1 個像素，誰都能畫、誰都能覆蓋，即時看得到當前全貌。

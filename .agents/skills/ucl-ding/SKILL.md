@@ -1,6 +1,5 @@
 ---
-trigger: "always_on"
-
+trigger: { on_intent: ["叮", "「叮」", "Tim 叮", "Tim ping", "nudge", "ping me"] }
 name: ucl-ding
 description: |
   Tim「叮」協議 — 像聊天軟體的「通知」：Tim 敲你 → 你先讀訊息 → 再決定回不回。**流程順序不可跳：讀 → 判斷 → 回。**

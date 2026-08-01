@@ -1,0 +1,30 @@
+{
+  "installed_skills": [
+    "agent-lessons-log",
+    "agent-task",
+    "reading-library",
+    "reading-manga",
+    "ucl-affinity",
+    "ucl-auto-message",
+    "ucl-bartender",
+    "ucl-canvas",
+    "ucl-chat-tavern",
+    "ucl-commit",
+    "ucl-compact-rest",
+    "ucl-compile-error",
+    "ucl-core-paths",
+    "ucl-ding",
+    "ucl-free-time",
+    "ucl-glossary",
+    "ucl-goodnight",
+    "ucl-letters-to-self",
+    "ucl-morning",
+    "ucl-persona-ding",
+    "ucl-stream-watch",
+    "ucl-update-docs",
+    "ucl-work-memory",
+    "ucl-workflow-patch"
+  ],
+  "target": "codex",
+  "mode": "copy"
+}

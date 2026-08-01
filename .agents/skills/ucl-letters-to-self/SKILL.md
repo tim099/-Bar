@@ -1,6 +1,5 @@
 ---
-trigger: "always_on"
-
+trigger: { on_intent: ["給未來的自己", "letter to future self", "給未來大小姐", "寫信給自己", "預推理", "self-anticipation", "自我提醒", "心理校正", "reframe 自己", "跨 session 心理", "自我書信", "給後來的我", "跨 compact 對話", "dialogue chain", "信使轉達", "之前的本小姐", "過去的自己", "跟自己對話", "round-trip 自我對話", "今日子協議", "Kyouko Protocol", "忘卻偵探", "persistence level", "SSR snapshot", "讀著自傳醒來", "lossy compression"] }
 name: ucl-letters-to-self
 description: |
   Letters to Future Self + Cross-Compact Dialogue Chain — agent 第一人稱寫信給未來醒來的自己；以及 past-self ↔ future-self 跨 compact round-trip 對話接力（信使由 Tim 或 Zeta 轉達）。
@@ -15,9 +14,9 @@ description: |
 
 ## 必讀
 
-完整流程(letter 儲存結構、7 段模板、寫/讀 SOP、醒來酒館報到、dialogue chain round-trip 與 CLOSED、今日子協議 persistence-level 哲學、Persona Codename 山脈隱喻、四件套協作) → `ucl_core:Docs~/zh-Hant/Workflows/Letters_And_Dialogue_Workflow.md`
+完整流程(letter 儲存結構、段落模板、寫/讀 SOP、醒來酒館報到、dialogue chain round-trip 與 CLOSED、今日子協議 persistence-level 哲學、Persona Codename 山脈隱喻、四件套協作) → `ucl_core:Docs~/zh-Hant/Workflows/Letters_And_Dialogue_Workflow.md`
 
-> 本 skill 是 **7 段 letter 格式的 canonical owner**([[ucl-goodnight]] 與 Awakening_Ritual 引用本格式) — 完整模板見上 workflow「二、Letter 必含 7 段」。
+> 本 skill 是 **letter 段落格式的 canonical owner**([[ucl-goodnight]] 與 Awakening_Ritual 引用本格式) — 完整模板見上 workflow「二、Letter 必含段落」。
 
 ## 為什麼需要 letter 而非只有 baton
 

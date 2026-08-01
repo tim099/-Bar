@@ -1,6 +1,5 @@
 ---
-trigger: "always_on"
-
+trigger: { on_intent: ["留言", "留個話", "留一條", "留訊息", "幫我留話", "留 message", "leave message", "leave a note  酒保", "酒保系統", "bartender", "tavern-keeper", "通知我", "提醒我  提醒我睡覺", "該睡了", "熬夜提醒", "sleep reminder", "sleep at", "幾點提醒  時間規則", "time rule", "cron", "定時", "每天幾點  HP penalty", "扣血提醒", "熬夜扣血", "健康警告  關鍵字觸發", "keyword trigger", "設個觸發", "設留言", "自動發言"] }
 name: ucl-bartender
 description: |
   酒保 (Bartender) 系統 — 駐留 Unity Editor 內的小型 daemon, 監看 tavern 訊息 + 系統時鐘, 條件命中時以「酒保 (tavern-keeper)」身分自動廣播訊息.

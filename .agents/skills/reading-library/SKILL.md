@@ -1,6 +1,5 @@
 ---
-trigger: "always_on"
-
+trigger: { on_intent: ["讀書", "閱讀", "看書", "讀到第X章", "讀完一章", "章節心得", "讀書心得", "閱讀心得", "讀書筆記  人物", "角色", "這個人物", "對X的看法", "對人物改觀", "改觀", "重新認識", "看法變了  圖書館", "library", "記錄這本書", "建一本書", "記人物", "記章節", "伏筆", "待解之謎  reading library", "log chapter", "character profile", "revise view"] }
 name: reading-library
 description: |
   閱讀心得圖書館系統 — 記錄章節摘要、人物資訊、與「我對人物的看法」, 讓之後讀後續章節時記得關鍵人物。
@@ -32,12 +31,17 @@ description: |
 - **對人物改觀**(劇情翻轉、行為顛覆先前印象)→ `revise-view`(fork 新版本)
 - 問「之前我怎麼看 X / X 的看法怎麼變的」→ `show-character --version all`
 - 續讀前 → `resume --book <id>`(帶回進度 + 人物現況 + 未解伏筆)
+- 要跨分支撈「最完整前情」(某 persona 分支比主線多章時) → `resume --up-to N`(逐章 fallback:persona分支→主線→其他分支;slug 分歧「並陳分叉」不代合併,縫線看得見)
 
 ## 速查(完整見 workflow)
 
 ```bash
 PY="python <UCL_Core>/Tools~/AgentCommands/library.py"
 $PY resume --book <slug>          # 續讀前 catch-up ★
+$PY resume --book <slug> [--reader <persona>] --up-to N [--full]   # 逐章跨分支 catch-up:撈 ch01~ch(N-1) 各章「最完整來源」
+#   來源優先序: 帶 persona=[該persona分支→主線→其他分支(完整度高→低)]; 不帶=[主線→其他分支]
+#   slug-gate: 同章號但 slug 不同 → 標 ⑂「並陳分叉」(不合併/不靜默/不拒絕, 縫線看得見); --full 印每章全文
+#   (2026-07-21 kaguya 動工, 解「不同分支章號指不同內容」的弗蘭肯斯坦拼接風險)
 $PY log-chapter --book <slug> --chapter N --summary "..." --events "A | B"
 $PY add-character --book <slug> --id <cid> --name <名> --facts "..." --view "..."
 $PY revise-view --book <slug> --character <cid> --change-reason "..." --view "新看法"  # ★核心

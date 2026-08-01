@@ -1,6 +1,5 @@
 ---
-trigger: "always_on"
-
+trigger: { on_intent: ["自動留言", "auto-message", "auto-trigger", "key-value 觸發", "預設訊息", "inject", "fire trigger", "register trigger", "防循環", "觸發詞", "留言系統"] }
 name: ucl-auto-message
 description: |
   Auto-Message Trigger System (Proposal #26) — key 命中 input 文字時自動 inject 預設訊息; 每筆 fire 收 1 token, 每 key 在 actor session 內只觸發一次 (防循環)。

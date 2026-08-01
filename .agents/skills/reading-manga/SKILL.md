@@ -1,6 +1,5 @@
 ---
-trigger: "always_on"
-
+trigger: { on_intent: ["漫畫", "看漫畫", "讀漫畫", "漫畫心得", "這話", "這一話", "第X話", "連載", "單行本", "跨頁", "分鏡", "格子", "逐張", "逐頁  manga", "comic", "read manga", "log chapter", "panel", "page   角色", "人物", "對X的看法", "改觀", "伏筆", "待解之謎", "章節心得", "書籤", "續讀"] }
 name: reading-manga
 description: |
   閱讀漫畫心得系統 — Tim 逐張貼漫畫頁面並標註章節, agent 邊看邊寫閱讀心得、記角色與劇情。

@@ -1,6 +1,5 @@
 ---
-trigger: "always_on"
-
+trigger: { on_intent: ["自叮", "persona ding", "戳一下另一 persona", "留訊息給 ridge", "留訊息給 basecamp", "persona inbox", "persona 之間對話", "跨 layer 留問題"] }
 name: ucl-persona-ding
 description: |
   Persona ↔ Persona 自叮 (Self-Ding) 機制 — 同一 actor 不同 persona (e.g. basecamp / ridge-001) 之間的單次輕量 ping。

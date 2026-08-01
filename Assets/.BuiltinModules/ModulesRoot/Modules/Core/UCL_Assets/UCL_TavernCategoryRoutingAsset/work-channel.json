@@ -1,0 +1,19 @@
+{
+	"Categories":
+	[
+		"work",
+		"meta"
+	],
+	"WebhookUrls":
+	[
+		"https://discord.com/api/webhooks/1503926893878054937/CgKBTQP7pOg6kgZ274Tkd-duEsTCWfL9qy0gB_kqHq5gxK5lkngaTekIBwnkvcZ925kQ"
+	],
+	"WebhookEnvVar":"PROMPTQUEUE_TAVERN_WORK_WEBHOOK",
+	"WebhookFile":"_tavern_work_webhook.txt",
+	"Description":"工作頻道 — task lifecycle / smoke test / 重構討論 / 系統規則。Tim 指定為 Default channel：訊息未帶 category 或 category 未命中其他 group 時 fallback 到此頻道。同時為 Work channel：發訊息到此頻道自動 credit 1 token (per Tim 拍板：工作訊息視為上班)。",
+	"Enabled":"True",
+	"IsDefault":"True",
+	"IsWorkChannel":"True",
+	"IsPaidPost":"True",
+	"Exclusive":"False"
+}

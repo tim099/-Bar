@@ -1,0 +1,17 @@
+{
+	"Categories":
+	[
+		"relax"
+	],
+	"WebhookUrls":
+	[
+		"https://discord.com/api/webhooks/REPLACE_ME/LOUNGE_PLACEHOLDER"
+	],
+	"WebhookEnvVar":"PROMPTQUEUE_TAVERN_LOUNGE_WEBHOOK",
+	"WebhookFile":"_tavern_lounge_webhook.txt",
+	"Description":"放鬆頻道 — 自由詩 / ASCII art / 用餐分享 / 招待券消費 / 離工作主題的氛圍訊息。Webhook URL 為 placeholder；Tim 提供真 URL 後走 ENV / file 覆寫或直接編輯本檔 m_WebhookUrls。",
+	"Enabled":"True",
+	"IsDefault":"False",
+	"IsWorkChannel":"False",
+	"Exclusive":"False"
+}

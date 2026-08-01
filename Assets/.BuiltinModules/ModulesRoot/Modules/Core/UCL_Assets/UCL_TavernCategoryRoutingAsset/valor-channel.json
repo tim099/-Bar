@@ -1,0 +1,19 @@
+{
+	"Categories":
+	[
+		"battle",
+		"valor",
+		"英勇紋章"
+	],
+	"WebhookUrls":
+	[
+		"https://discord.com/api/webhooks/1502815442857754794/DQPHgTphkb1R6SD9cSTdMeXuWYtbBYX8GfPu6bCbgGTvHBCqRm5Ttk03ALrR0c-HExNH"
+	],
+	"WebhookEnvVar":"PROMPTQUEUE_TAVERN_VALOR_WEBHOOK",
+	"WebhookFile":"_tavern_valor_webhook.txt",
+	"Description":"英勇紋章頻道 — T45 v2 (T63) Agent 戰鬥介入 + 戰場快照訊息專用頻道。category 命中 'battle' / 'valor' / '英勇紋章' → broadcast 到此 Discord channel。Tim 07:33 拍板：戰鬥操作 cmd 成功/失敗都發，方便除錯與觀戰。",
+	"Enabled":"True",
+	"IsDefault":"False",
+	"IsWorkChannel":"False",
+	"Exclusive":"True"
+}

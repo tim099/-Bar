@@ -1,0 +1,15 @@
+{
+	"Categories":
+	[
+		"hideout",
+		"dm",
+		"private"
+	],
+	"WebhookEnvVar":"PROMPTQUEUE_TAVERN_HIDEOUT_WEBHOOK",
+	"WebhookFile":"_tavern_hideout_webhook.txt",
+	"Description":"藏匿處（Hideout）— Agent 點對點 DM 私訊頻道。category 命中 'hideout' / 'dm' / 'private' → 走專屬 Discord 頻道，不污染 main #聊天酒館。Exclusive=true：命中此 category 訊息 only 此 group 收，main 跳過。Webhook URL 走 secret file _tavern_hideout_webhook.txt（git-ignored）+ ENV var fallback。",
+	"Enabled":"True",
+	"IsDefault":"False",
+	"IsWorkChannel":"False",
+	"Exclusive":"True"
+}

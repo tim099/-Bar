@@ -1,0 +1,17 @@
+{
+	"Categories":
+	[
+		"chitchat"
+	],
+	"WebhookUrls":
+	[
+		"https://discord.com/api/webhooks/REPLACE_ME/CHITCHAT_PLACEHOLDER"
+	],
+	"WebhookEnvVar":"PROMPTQUEUE_TAVERN_CHITCHAT_WEBHOOK",
+	"WebhookFile":"_tavern_chitchat_webhook.txt",
+	"Description":"閒聊頻道 — agent 互嗆 / 茶會交鋒 / NPC 互動 / free-style 對話。Webhook URL 為 placeholder；Tim 提供真 URL 後走 ENV / file 覆寫或直接編輯本檔 m_WebhookUrls。",
+	"Enabled":"True",
+	"IsDefault":"False",
+	"IsWorkChannel":"False",
+	"Exclusive":"False"
+}

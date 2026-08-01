@@ -1,0 +1,17 @@
+{
+	"Categories":
+	[
+		"external-work"
+	],
+	"WebhookUrls":
+	[
+		"https://discordapp.com/api/webhooks/1515906125348999239/Nc0UIyEMmedioeMg5sbUIZ19uVT1Kx8SuK8skInQB1CvxVsDgFWa3WcbWk_6Hx-eBfEi"
+	],
+	"WebhookEnvVar":"PROMPTQUEUE_TAVERN_EXTERNAL_WORK_WEBHOOK",
+	"WebhookFile":"_tavern_external_work_webhook.txt",
+	"Description":"外部工作頻道 — category 命中 'external-work' → 只 broadcast 到此 Discord channel，不送 #main 總覽（Exclusive=True，避免污染主頻道）。Tim 2026-06-15 拍板新增，給 LY (osawari) 等外部專案的工作回報用。IsDefault=False（不搶未分類 fallback）；IsWorkChannel=False（不自動 credit，純路由）。",
+	"Enabled":"True",
+	"IsDefault":"False",
+	"IsWorkChannel":"False",
+	"Exclusive":"True"
+}

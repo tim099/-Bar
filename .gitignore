@@ -12,6 +12,7 @@
 # Unity Generated Solution files
 /*.sln
 /*.csproj
+/*.slnx
 
 # Visual Studio DB
 /.vs/

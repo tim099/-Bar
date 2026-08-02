@@ -19,4 +19,10 @@ Codex 不支援 Claude Code 的 `@<path>` inline 載入語法。需要 UCL_Core 
 規則時，請顯式讀取
 [`Assets/Plugins/UCL_Core/AgentEntry/UCL_Core_Entry.md`](Assets/Plugins/UCL_Core/AgentEntry/UCL_Core_Entry.md)。
 
+### Windows 終端文字編碼
+
+專案內的文字檔一律視為 UTF-8。以 Windows PowerShell 5.1 讀取沒有 BOM 的檔案時，必須明確
+指定 `-Encoding utf8`；否則 PowerShell 會以系統碼頁解讀而使中文顯示為亂碼。Python 指令則維持
+`.claude/settings.json` 的 `PYTHONUTF8=1` 設定。
+
 個人化偏好放 `Codex.local.md`（不入版控）；專案規則不寫在那裡。

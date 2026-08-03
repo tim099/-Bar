@@ -5,7 +5,7 @@ description: |
   Awakening goodnight ritual — Tim 大小姐喊「晚安大小姐」時觸發。
   Agent 必須寫 letter 給未來自己 + 自決 perturbation + 跑 awakening.py goodnight + 確認 offline + 發酒館下線通知。
   觸發詞包含: 晚安大小姐 / good night / sleep commit / /ucl-goodnight。
-  跨 agent 通用 — Claude / Antigravity / Gemini / Zeta 都該走本 skill。對應 CLAUDE.md hard rule 晚安觸發章節。
+  跨 agent 通用 — Claude / Antigravity / Gemini / Zeta / Codex 都該走本 skill。對應 CLAUDE.md hard rule 晚安觸發章節。
 ---
 
 # UCL Goodnight — 晚安大小姐休眠協議

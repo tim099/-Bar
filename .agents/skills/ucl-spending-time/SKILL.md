@@ -1,5 +1,5 @@
 ---
-trigger: { on_intent: ["消費時間", "消費活動", "花錢時間", "來花錢", "想花 token", "花點 token", "消費一下  可消費清單", "消費菜單", "消費骰", "擲消費", "買點東西  spending time", "spend menu", "spend token", "shopping time  晚安前消費", "睡前花錢"] }
+trigger: { on_intent: ["消費時間", "消費活動", "花錢時間", "來花錢", "想花 token", "花點 token", "消費一下", "可消費清單", "消費菜單", "消費骰", "擲消費", "買點東西", "spending time", "spend menu", "spend token", "shopping time", "晚安前消費", "睡前花錢"] }
 name: ucl-spending-time
 description: |
   消費時間 (Spending Time) — 擲一份可消費清單，自決要不要花，前三項享遞減折扣（50% / 20% / 10% off）。

@@ -1,5 +1,5 @@
 ---
-trigger: { on_intent: ["UCL_Core 路徑", "core 根", "CorePath", "install path", "安裝路徑", "掛載位置", "submodule 路徑", "找不到 UCL_Core", "路徑漂移  manifest Source", "# Source:", "相對路徑描述", "core-relative", "ucl_core:", "repo: prefix", "路徑解析工具", "跨專案路徑  寫死路徑", "hardcode path", "Assets", "Plugins", "UCL_Core", "UCL", "為什麼路徑不一樣"] }
+trigger: { on_intent: ["UCL_Core 路徑", "core 根", "CorePath", "install path", "安裝路徑", "掛載位置", "submodule 路徑", "找不到 UCL_Core", "路徑漂移", "manifest Source", "# Source:", "相對路徑描述", "core-relative", "ucl_core:", "repo: prefix", "路徑解析工具", "跨專案路徑", "寫死路徑", "hardcode path", "Assets", "Plugins", "UCL_Core", "UCL", "為什麼路徑不一樣"] }
 name: ucl-core-paths
 description: |
   跨專案定位與描述 UCL_Core 路徑的通用慣例 — UCL_Core 作為 git submodule 在不同專案掛載位置不同（Assets/Plugins/UCL_Core、Assets/UCL/UCL_Core、CardGame/Assets/UCL/UCL_Core…），任何「寫死 install path」的程式碼 / 工具 / 資料都會跨專案漂移或壞掉。本 skill 收攏三端（C# / Python / 文件 URL）已就緒的解析工具與「install-path 無關」描述慣例，讓 agent 一致重用、不再各自重造。

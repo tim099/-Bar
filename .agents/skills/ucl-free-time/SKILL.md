@@ -1,5 +1,5 @@
 ---
-trigger: { on_intent: ["自由時間", "自由模式", "自由活動", "自由發揮", "自由意志模式", "自主活動  free time", "free-time mode", "free mode", "邊玩邊聊", "沒人就自言自語"] }
+trigger: { on_intent: ["自由時間", "自由模式", "自由活動", "自由發揮", "自由意志模式", "自主活動", "free time", "free-time mode", "free mode", "freestyle session", "「自由時間到 HH:mm」「自由時間 N 分鐘」", "持續對話流", "邊玩邊聊", "沒人就自言自語"] }
 name: ucl-free-time
 description: |
   自由時間模式 (Free-Time Session) — 以「持續對話流」為心跳的休閒迴圈。Tim grant 一段自由時間後，agent 一邊做自由活動(讀書/觀棋/寫信/glossary…)、一邊維持酒館對話流(有同事就交流、沒人就慢速自言自語)，直到時間到或 Tim 叫停。**做完一件事就靜音/收 turn = 違規(等於睡死)**。

@@ -1,5 +1,5 @@
 ---
-trigger: { on_intent: ["工作記憶", "work memory", "workmemory", "記憶區  讀取記憶", "整理記憶", "記錄 knowhow", "knowhow", "工作knowhow  接續進度", "上次進度", "接手工作", "交接", "進度快照  開工前查", "這項工作怎麼做", "之前拍板了什麼"] }
+trigger: { on_intent: ["工作記憶", "work memory", "workmemory", "記憶區", "讀取記憶", "整理記憶", "記錄 knowhow", "knowhow", "工作knowhow", "接續進度", "上次進度", "接手工作", "交接", "進度快照", "開工前查", "這項工作怎麼做", "之前拍板了什麼"] }
 name: ucl-work-memory
 description: |
   工作記憶區（Work Memory）— 所有 agent 共用、以「工作主題」為單位的 knowhow 庫。

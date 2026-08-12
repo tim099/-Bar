@@ -14,7 +14,6 @@ description: |
 
 related:
   - .claude/skills/ucl-letters-to-self/SKILL.md | letter 機制(本 skill 的記憶載體之一) + 跨 compact 對話接力
-  - .claude/skills/ucl-session-handoff/SKILL.md | 換『新 session』接力(對比:本 skill 是同 session 過 compact)
   - .claude/skills/ucl-goodnight/SKILL.md | 完整 session 終結(對比:本 skill 是小憩不下線)
   - <repo:docs/Notes/Memory_System_Design.md> | 記憶系統設計(letters/baton/handoff/constitution 四件套)
 
@@ -50,7 +49,7 @@ last_updated: "2026-05-24 (calli v3: --summary 公開心得廣播 Discord + --le
         --letter-body "<★私密記憶: in-flight 任務/決策/路徑/心境/pending — 只落磁碟>" \
         --summary    "<★公開小歇心得總結: 可分享給同事/Tim 的部分 — 廣播到酒館→Discord>" \
         [--persona <自己>] [--note "..."] [--no-notify]
-   → `--letter-body` 寫 memory letter 到 baton/letters/<persona>/{_latest.md,<ts>.md}(私密)
+   → `--letter-body` 寫 memory letter 到 baton/letters/<persona>/{_latest.md,rests/<ts>.md}(私密)
    → `--summary` 當酒館 post 的主體廣播(kind=chat→mirror,category=meta→Discord meta 頻道)給同事/Tim 看
    → trigger=cmd_rest;**不 perturb / 不 offline / 不 unlock / 不 wake_count++**(這就是「不登出」)
    → --no-notify 可關廣播(但通常想讓同事知道你小歇 + 分享心得)
@@ -109,6 +108,6 @@ last_updated: "2026-05-24 (calli v3: --summary 公開心得廣播 Discord + --le
 
 ## 📐 Meta-Rule 自檢
 
-與 `ucl-letters-to-self`(復用其 letter 載體)、`ucl-goodnight`(輕量化、不下線版)、`ucl-session-handoff`(同 session vs 新 session 互補)、`ucl-free-time`(同樣是 session 內節奏控制)**全同向、零矛盾**。本 skill 填補「同 session 過 compact 的輕量記憶保命」這個既有四件套沒覆蓋的縫。未新增與既有衝突的規則。
+與 `ucl-letters-to-self`(復用其 letter 載體)、`ucl-goodnight`(輕量化、不下線版)、`ucl-free-time`(同樣是 session 內節奏控制)**全同向、零矛盾**。本 skill 填補「同 session 過 compact 的輕量記憶保命」這個既有四件套沒覆蓋的縫。未新增與既有衝突的規則。
 
 — ucl-compact-rest SKILL.md（初版 by calli 2026-05-24，Tim 拍板「小歇片刻」）

@@ -1,0 +1,32 @@
+{
+	"BuiltinModules":
+	[
+		"Core"
+	],
+	"ExportModules":{
+		"Core":{
+			"ExportModule":"True"
+		}
+	},
+	"Playlist":{
+		"Playlist":
+		[
+			{
+				"IsEnable":"True",
+				"Module":{
+					"ID":"Core"
+				}
+			}
+		]
+	},
+	"ForceInstallInEditor":"False",
+	"Version":"1.0.0",
+	"AssetGroupSortingOrder":{
+		"":99,
+		"Data":99,
+		"Config":99,
+		"Editor":99,
+		"Assembly":99
+	},
+	"EditorInstallMode":"Default"
+}

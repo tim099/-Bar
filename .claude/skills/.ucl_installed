@@ -1,7 +1,6 @@
 {
   "installed_skills": [
     "agent-lessons-log",
-    "agent-task",
     "reading-library",
     "reading-manga",
     "ucl-affinity",
@@ -18,6 +17,7 @@
     "ucl-glossary",
     "ucl-goodnight",
     "ucl-letters-to-self",
+    "ucl-memory",
     "ucl-morning",
     "ucl-spending-time",
     "ucl-stream-watch",

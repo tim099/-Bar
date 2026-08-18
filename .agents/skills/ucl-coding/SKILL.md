@@ -66,6 +66,23 @@ description: |
 
 ## 規範本體（本 skill 只是指路，細節不在這裡重抄）
 
+> [!IMPORTANT]
+> ## 🧱 JSON 一律定義具體 class 並繼承 `UnityJsonSerializable`（Tim 2026-08-18 拍板）
+>
+> 已知 schema 不准用裸 `JsonData` 逐鍵讀寫 —— 鍵名打錯不會編譯錯、也不會執行錯，
+> **只會讀回預設值**，而讀回預設值通常長得跟「這筆資料不存在」一模一樣。
+> `JsonData` 只留在邊界層（解析外部 JSON / 保存未知欄位 / migration），且要在註解寫明理由。
+>
+> 換成 typed model 時**有三個坑會讓 wire format 靜默改變**（編譯過、看起來對）：
+> **① 欄位名＝JSON 鍵名**（`FieldNameUnityVer` 只脫 `m_`）⇒ 沿用舊鍵名時刻意不走 `m_PascalCase`，
+> 並在註解寫明；**② `bool` 會被寫成 `"True"`/`"False"` 字串**，C# 載入端雙接看不出來，
+> 但 python 讀到的 `"False"` 是 **truthy** ⇒ 有非 C# 讀取端時要 `override SerializeToJson()`
+> 把 bool 寫回原生；**③ 驗收要拿真實舊檔 round-trip 比對**（`Cmd_Invoke` 可直接做），
+> 不是編譯過就算 —— 那隻 bool 正是在「recompile 回報 0 錯」之後才被 round-trip 抓到的。
+>
+> 完整血證與範例 → `ucl_core:Docs~/{lang}/Agent/Coding_Standards.md`「換成 typed model 時的三個坑」。
+> 參考實作：`UCL_SessionBase` / `UCL_FreeTimeSession` / `HSceneSpineImportConfig`。
+
 | 主題 | 文件 |
 |---|---|
 | C# 撰寫規範（設定/JSON、字串 key、**外部 Process**） | `ucl_core:Docs~/{lang}/Agent/Coding_Standards.md` |
@@ -137,7 +154,7 @@ domain reload 會清掉 C# 的 `Process` 物件，但 OS 層的 process **不會
 | 端 | 用什麼 | ❌ 不要 |
 |---|---|---|
 | **Python** | `_lib/ucl_paths.py`（`repo_root()` / `data_root()` / `ucl_core_dir()`） | `parents[N]`、自己 walk `.git`、自排 env/cwd fallback |
-| **C#** | `UCL_AgentCommandsPath.DataRoot` / `UCL_RepoPath` / `UCL_EditorPath.CorePath` | `Application.dataPath + "../.."` |
+| **C#** | `UCL_AgentCommandsPath.DataRoot` / `UCL_RepoPath` / `UCL_EditorPath.CorePath` ／ **letters 底下走 `UCL_LettersPath`** | `Application.dataPath + "../.."`、自己 `Path.Combine` 出 letters 版面 |
 | **文件** | `ucl_core:` / `repo:` prefix | 寫死 `Assets/Plugins/UCL_Core/...` |
 
 > 🩸 **2026-08-17 一天內同一個病撞到三次，全部無聲**：
@@ -271,6 +288,7 @@ run_cmd.py --persona <me> run Invoke --arg target='$imp' --arg member=Save   # �
 |---|---|
 | 開外部 process | `UCL_ProcessRegistryService` |
 | 找 repo root / Unity project root / AgentCommands 目錄 | `UCL_RepoPath` |
+| **組 letters 底下的路徑**（信 / Cmd 回傳檔） | `UCL_LettersPath`（python 對側：`ucl_paths.letters_cmd_payload()`）—— 別自己 `Path.Combine`，2026-08-18 那次搬家就是因為四種算法各在一處 |
 | 用檔案管理器開啟路徑 | `UCL_ExplorerUtil` |
 | 存持久化資料 | `UCL_Asset<T>` |
 | 頁面設定記住上次的值 | `EditorPrefs`（key 用 `const string`） |

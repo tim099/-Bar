@@ -53,3 +53,5 @@ ProjectSettings/UCL_CoreTemplatePush.skipped.json
 DebugLogs/*
 
 /Build/
+
+.comic_root.local

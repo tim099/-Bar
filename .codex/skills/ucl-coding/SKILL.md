@@ -189,6 +189,26 @@ domain reload 會清掉 C# 的 `Process` 物件，但 OS 層的 process **不會
 （直寫會繞過餘額快取與冪等判重，且簽章欄位偽造成本為零）。2026-08-17 券的帳本分裂，
 路徑 bug 是導火線，**能燒起來是因為 grant 那條路徑本來就允許直寫**。
 
+**④-b 銀行／餘額一律走 `UCL_TreasuryLedger` 的 API，不自己解析原檔**（Tim 2026-08-20 拍板）。
+
+`GetBalance(accountId)` 單一帳戶／**`GetAllBalances()` 整批**（要畫一張表就用這個，只同步一次）。
+
+❌ 不准自己重放 `Treasury/ledger/**.json`、不准 parse `accounts/_balances.snapshot.txt`、
+不准在呼叫端另建一份餘額快取。三個理由，全部不會當場叫：
+
+- **正確性**：餘額不是「把檔案加總」—— 它有**關帳基準**（`closing/<日>.json` warm start）、
+  增量 watermark、壞檔處理。自己重放會得到一個看起來合理、但少算或多算一段的數字。
+- **效能**：`GetBalance` 單次便宜（只列舉路徑），但那是**單次**的便宜。
+  🩸 2026-08-20：銀行後台兩個新表格區各自對 40 個帳戶現場查餘額 ⇒ 開頁卡一分鐘、
+  IMGUI 跳 `Getting control 8's position in a group with only 8 controls`、
+  Unity 內部 `PropertyEditor` 連鎖 NullReferenceException，連 `recompile` 都排不進主執行緒。
+- **一致性**：兩份餘額來源遲早給出不同答案，而兩邊都能自圓其說、都不報錯。
+
+> ⛔ **`Draw*`（IMGUI）裡只准讀記憶體。** 任何會碰磁碟的呼叫 —— 餘額、`File.Exists`、
+> 讀設定檔的 property —— 都要先在 `LoadData` 算好存成欄位，並在操作後顯式失效。
+> ⚠ 把**會讀檔的 property** 放進 Draw 還有第二種死法：IMGUI 的 Layout 與 Repaint 是**兩個 pass**，
+> 兩趟看到不同的控制項數量就會拋 `ArgumentException` 並中止該幀繪製。
+
 **⑤ 跑 `run_cmd.py` 一律帶 `--persona <你>`**（Tim 2026-08-17 拍板）。
 
 ```bash
@@ -282,6 +302,41 @@ run_cmd.py --persona <me> run Invoke --arg target='$impUtil' --arg member=GetDat
 run_cmd.py --persona <me> run Invoke --arg target='$imp' --arg member=Import
 run_cmd.py --persona <me> run Invoke --arg target='$imp' --arg member=Save   # ← 漏掉這步 = 改動只在記憶體
 ```
+
+### 🖱 觸發 Editor 頁的 UI 按鍵（Tim 2026-08-20 拍板）
+
+**後台頁的按鈕動作也能從 CLI 觸發** —— 不必開 Unity 用滑鼠按。
+每個 `UCL_EditorPage` 子類都有靜態 factory `public static XXX Create()`，拿它當入口：
+
+```bash
+# ① 建頁面實例並存成變數
+run_cmd.py --persona <me> run Invoke     --arg type=UCL.Core.EditorLib.Page.UCL_BankAdminPage --arg member=Create --arg storeAs=page
+
+# ② 用 $page 呼叫按鍵背後的方法（多半是 private instance method ⇒ 要 nonPublic=true）
+run_cmd.py --persona <me> run Invoke     --arg target='$page' --arg member=LoadData --arg nonPublic=true
+
+# 有參數的照常帶 paramTypes / args
+run_cmd.py --persona <me> run Invoke --arg target='$page'     --arg member=IsAgentBankRemoveArmed --arg paramTypes=System.String --arg args=Zeta --arg nonPublic=true
+```
+
+實測讀數（2026-08-20，`UCL_BankAdminPage`）：
+`Create` → `OK (UCL.Core.EditorLib.Page.UCL_BankAdminPage)`／`LoadData` → `OK (void / null)`／
+`IsAgentBankRemoveArmed("Zeta")` → `OK (System.Boolean) = False`。
+
+⚠ **static 成員仍然要用 `type=`，不能用 `target=$page`。**
+🩸 血證（同日）：`SafeBalance` 是 static，我用 `target=$page` 呼叫 ⇒ `method not found: …SafeBalance(System.String)`。
+改用 `type=` ⇒ `OK (System.String) = 2765`。**這正是本節下方「踩過的幾條」早就寫過的那一條，我照樣踩了。**
+
+⚠ **限制：依賴輸入框草稿（`m_XxxDraft`）的按鍵無法直接觸發** ——
+`kind=field` 是**讀取**，Cmd_Invoke 沒有寫 private field 的入口。
+⇒ 要讓這種按鍵可測，把邏輯層抽成「吃參數的方法」，UI 那層只負責把 draft 餵進去。
+（那本來就該做：按鍵動作與畫面狀態綁死的話，除了人手按之外沒有任何驗證方式。）
+
+⚠ 而且 **Cmd 回 Success 不代表你讀到的是這一次的回傳值** ——
+回傳印在 Editor log，`grep … | tail -1` 在**這一次失敗**時會安靜地給你**上一次**的那行。
+🩸 血證（同日）：第二次呼叫失敗，我 tail 到的是第一次的 `Boolean=False`，
+而抓到它的唯一線索是**型別對不上**（那個方法該回字串）。
+⇒ 判準：先看 run_cmd 有沒有印 `✓ Cmd completed`，**再**去讀 log 那行；兩者要一起看。
 
 ### 踩過的幾條
 

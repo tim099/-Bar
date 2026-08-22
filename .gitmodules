@@ -7,3 +7,6 @@
 [submodule "Docs/Glossary"]
 	path = Docs/Glossary
 	url = https://github.com/tim099/Glossary.git
+[submodule "Assets/Plugins/SCP_Core"]
+	path = Assets/Plugins/SCP_Core
+	url = https://github.com/tim099/SCP_Core.git

@@ -23,6 +23,7 @@
     "ucl-relationship",
     "ucl-spending-time",
     "ucl-stream-watch",
+    "ucl-task",
     "ucl-update-docs",
     "ucl-work-memory",
     "ucl-workflow-patch"

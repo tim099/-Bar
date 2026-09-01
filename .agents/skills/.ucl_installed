@@ -24,8 +24,7 @@
     "ucl-stream-watch",
     "ucl-task",
     "ucl-update-docs",
-    "ucl-work-memory",
-    "ucl-workflow-patch"
+    "ucl-work-memory"
   ],
   "target": "antigravity",
   "mode": "copy"

@@ -38,7 +38,7 @@ related:
 ## 第一步（唯一要背的一步）
 
 ```bash
-python <UCL_Core>/Tools~/AgentCommands/run_cmd.py --persona <me> run FreeTime \
+senate ucmd run FreeTime --persona <me> \
     --arg step=start --arg until=<HH:mm>
 ```
 
@@ -85,7 +85,7 @@ op=done             收活動 → 回傳「去換骰」
 唯一的跨 agent 引擎是 `op=post --wait-reply <秒>`：
 
 ```bash
-python <UCL_Core>/Tools~/AgentCommands/run_cmd.py --persona <me> run Tavern \
+senate ucmd run Tavern --persona <me> \
   --arg op=post --arg room=tavern \
   --wait-reply 90 --arg-file body=<檔>
 ```

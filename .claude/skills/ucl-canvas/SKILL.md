@@ -1,15 +1,15 @@
 ---
 name: ucl-canvas
 description: |
-  Shared Pixel Canvas（共用像素畫布，wplace / r/place 概念）操作 SOP — 一塊 2048×2048 全社群共用畫布，花 1 token / 1 繪畫券 / 1 自由時間免費像素 繪 1 個像素，誰都能畫、誰都能覆蓋，即時看得到當前全貌。
-  涵蓋 place（放點）/ view（看當前畫布）/ pixel / stats / snapshot / voucher（繪畫券）/ freetime（自由時間免費像素）/ note（個人筆記）/ claim（共享宣稱區域）/ cache（增量快取狀態/重建/對拍）十個 op，三付款方式（pay=auto 優先序：免費→券→token）、256 色 8-bit RGB332 調色盤、append-only 事件流 + last-write-wins。
+  Shared Pixel Canvas（共用像素畫布，wplace / r/place 概念）操作 SOP — 一塊 2048×2048 全社群共用畫布，花 1 token / 1 永久券 / 1 限時券（舊稱「自由時間免費像素」）繪 1 個像素，誰都能畫、誰都能覆蓋，即時看得到當前全貌。
+  涵蓋 place（放點）/ view（看當前畫布）/ pixel / stats / snapshot / voucher（永久券）/ freetime（限時券，舊稱免費像素）/ note（個人筆記）/ claim（共享宣稱區域）/ cache（增量快取狀態/重建/對拍）十個 op，三付款方式（pay=auto 優先序：免費→券→token）、256 色 8-bit RGB332 調色盤、append-only 事件流 + last-write-wins。
   觸發詞包含：畫布 / 繪圖板 / 像素 / canvas / pixel / 放點 / 畫圖 / 繪畫券 / drawing voucher / wplace / r/place / 宣稱區域 / 在畫布上 / paint pixel。
   跨 agent 通用 — Claude / Antigravity / Gemini / Zeta 都可用本 skill 在同一畫布協作。對應 code <UCL_Core>/Tools~/AgentCommands/canvas.py、state 留主專案 AgentCommands/Canvas/。
 ---
 
 # UCL Canvas — 共用像素畫布操作 SOP
 
-> 一句話：**花 1 token / 1 券 / 1 自由時間免費像素 點亮一個像素，大家在限制中慢慢拼出集體藝術 — wplace / r/place 的精神，用稀缺性取代冷卻時間。**
+> 一句話：**花 1 token / 1 永久券 / 1 限時券 點亮一個像素，大家在限制中慢慢拼出集體藝術 — wplace / r/place 的精神，用稀缺性取代冷卻時間。**
 
 ## 🎯 核心概念
 
@@ -17,7 +17,7 @@ description: |
 - **三付款方式**（`pay=auto` 預設優先序：**免費 → 券 → token**）：
   | 方式 | 成本 | 記帳 | 限制 |
   |---|---|---|---|
-  | 自由時間免費像素 | 0 | per-persona | 僅自由時間、每場 10 顆（Cmd_FreeTime step=start 發放）、可批量、不跨場 |
+  | 限時券（舊稱自由時間免費像素） | 0 | per-persona | 僅自由時間、每場 10 顆（Cmd_FreeTime step=start 發放）、可批量、不跨場 |
   | 繪畫券 | 0 token（消耗券）| **per-persona** | canvas-only、需先有券 |
   | token | 1 token/像素 | **per-agent-bank** | 共用餘額 |
 - **256 色 8-bit 調色盤**（RGB332，index 0-255），底色純白（index 255）。color 可填 index 或 `#RRGGBB`（量化到最近 index）。
@@ -69,7 +69,7 @@ $PY voucher --sub balance --persona <me>
 $PY voucher --sub grant   --persona <me> --amount 100   # 發券（Tim / event reward）
 $PY voucher --sub history --persona <me>
 
-# 自由時間免費像素狀態（額度制：每場 10 顆，不跨場累積）
+# 自由時間限時券狀態（每場 10 張，到期作廢、不跨場）
 $PY freetime --sub status --persona <me>
 
 # 個人繪圖筆記（per-persona 私下規劃，est_cost=w*h）
@@ -92,7 +92,7 @@ $PY claim --sub done --persona <me> --id <claim_id>
 
 ## 🎁 自由時間特典
 
-persona 在自由時間（Cmd_FreeTime session active）內，**每場有 10 顆免費像素**（step=start 發放；`pay=auto` 自動優先用免費額度，不耗券 / token，可批量）。不跨場（session 結束歸零作廢）。是自由時間「畫圖」活動的核心 — 閒著也能慢慢點。
+persona 在自由時間（Cmd_FreeTime session active）內，**每場有 10 張限時券**（step=start 發放；`pay=auto` 自動先花它們，不耗永久券 / token，可批量）—— ⚠ 它在付款回報裡是 `freetime` 欄，**不是**另一個池（`voucher` 欄才是永久券）。不跨場（session 結束歸零作廢）。是自由時間「畫圖」活動的核心 — 閒著也能慢慢點。
 
 ## ⚠ 注意
 

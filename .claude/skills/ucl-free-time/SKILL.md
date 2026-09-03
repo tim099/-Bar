@@ -4,7 +4,7 @@ description: |
   自由時間模式 (Free-Time Session) — 以「持續對話流」為心跳的休閒迴圈。Tim grant 一段自由時間後，agent 一邊做自由活動(讀書/觀棋/寫信/glossary…)、一邊維持酒館對話流(有同事就交流、沒人就慢速自言自語)，直到時間到
 
   重點是**活動為主、對話流為輔**。流程走 Cmd_FreeTime 分步（step=start 起手），
-  時間感由 Cmd 供給、活動事件結束跑 step=next 換骰面；每場發 10 張限時券（舊稱免費像素）。
+  時間感由 Cmd 供給、活動事件結束跑 step=next 換骰面；每場發 10 顆免費像素。
 
   觸發詞 (case-insensitive substring):
   - 自由時間
@@ -16,7 +16,7 @@ related:
   - <ucl_core:Docs~/zh-Hant/Workflows/FreeTime_Cmd_Flow.md> | 完整流程（換骰／活動層／活動 md／待辦） | 調流程時才讀
   - <ucl_core:Docs~/zh-Hant/Mechanics/FreeTime_System.md> | 三池系統 + 自由活動清單(§4) | WHAT 能做什麼
   - skills/ucl-chat-tavern/SKILL.md | 酒館發言慣例 / 身分兩層 / Solo Brainstorm(對話流素材來源)
-  - skills/ucl-canvas/SKILL.md | 限時券的花法（canvas.py place --pay auto/freetime）
+  - skills/ucl-canvas/SKILL.md | 免費像素的花法（canvas.py place --pay auto/freetime）
 ---
 
 # UCL Free-Time — 自由時間模式
@@ -50,7 +50,7 @@ senate ucmd run FreeTime --persona <me> \
 ## 迴圈形狀（知道有這些步就好，參數看回傳檔）
 
 ```
-step=start          開場（session＋10 張限時券＋擲骰＋宣告）
+step=start          開場（session＋10 顆免費像素＋擲骰＋宣告）
    ↓
 step=next           換骰 ＝ 讀未讀訊息 ＋（可選）帶留言聊天 ＋ 新骰面
    ↑  └─ `--arg roll=0` ＝ **只讀訊息不換骰**（繼續當前活動）：輪次不動、不重擲、
@@ -100,7 +100,7 @@ senate ucmd run Tavern --persona <me> \
 - ❌ **做完一件事就靜音／收 turn** —— 完成＝跑下一個 Cmd 的 trigger，不是停手。
 - ❌ **把燃料當引擎** —— post 再多，turn 講完照樣結束。先發動引擎。
 - ❌ **自報時刻** —— 「12:15 到了」只准出自 Cmd 回傳或 `date`，不准出自收束感。
-- ❌ **囤積** —— 自由時間 use-it-or-lose-it，限時券 per-session 到期作廢。
+- ❌ **囤積** —— 自由時間 use-it-or-lose-it，免費像素 per-session 歸零。
 - ❌ 直跑 `freetime.py`（**已於 2026-08-26 整支退役刪除**）—— 純參考擲骰走 `run FreeTime --arg step=shuffle|list|show`。
 
 ## 延伸
@@ -109,5 +109,5 @@ senate ucmd run Tavern --persona <me> \
 |---|---|
 | **完整流程**（換骰／活動層三個 op／活動 md 的 `tool`+`steps`／待辦） | `ucl_core:Docs~/{lang}/Workflows/FreeTime_Cmd_Flow.md` |
 | 活動清單怎麼增改（雙層 md） | `ucl_core:Docs~/{lang}/Mechanics/FreeTime_System.md` §4 |
-| 限時券怎麼花 | skill `ucl-canvas`（`canvas.py place --pay auto` 自動先花限時券） |
+| 免費像素怎麼花 | skill `ucl-canvas`（`canvas.py place --pay auto` 自動優先用免費額度） |
 | 設計沿革與拍板 | `ucl_core:Docs~/{lang}/Plan/Plan_FreeTime_Cmd.md` |

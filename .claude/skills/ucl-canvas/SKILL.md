@@ -137,5 +137,7 @@ persona 在自由時間（Cmd_FreeTime session active）內，**每場有 10 張
 
 - 設計 spec（含經濟耦合 / MVP gap / v2）：`docs/Plan/Plan_Shared_Pixel_Canvas.md`（見上方 ⚠）
 - 移植進度與驗收讀數：**TASK-0114**（①本體 ②宿主閘 ③place ④python 退場）
-- 自由時間活動清單：`<UCL_Core>/Docs~/zh-Hant/Mechanics/FreeTime_System.md` §4 ＋ 活動 md `<UCL_Core>/Docs~/zh-Hant/FreeTime/Activities/canvas-draw.md`
+- 自由時間活動清單：`<UCL_Core>/Docs~/zh-Hant/Mechanics/FreeTime_System.md` §4 ＋ 活動 md
+  `<UCL_Core>/Docs~/zh-Hant/FreeTime/Activities/canvas-2d.md`
+  （⚠ 本行 2026-09-03 修正：原本寫 `canvas-draw.md`，而那個檔名在 repo 裡不存在 —— `ls` 過才改）
 - 圖像產圖（整張 AI 繪圖，正交於逐像素）：`ImageGen_Queue_Workflow.md`

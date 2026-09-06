@@ -1,5 +1,5 @@
 ---
-trigger: { on_intent: ["小歇片刻", "小歇", "小憩", "歇一下", "喘口氣", "compact", "壓縮", "壓縮對話", "壓縮記憶", "整理記憶", "保留記憶", "記憶保命", "context 快滿", "context 要爆", "快到上限", "該 compact 了", "compact 前", "該怎麼 compact", "指定 compact", "午安大小姐", "午安", "接回", "我醒了", "小歇結束", "compact 完了"] }
+trigger: { on_intent: ["午休一下", "午安大小姐"] }
 name: ucl-compact-rest
 description: |
   小歇片刻 (Compact Rest) — /compact 前的記憶保命儀式。趁 compact 抹掉 live context 前，主動把「我想記住的重要記憶」落磁碟(唯一可靠通道) + 給 /compact 下 focus 指示(best-effort 偏向)，讓 compact 後的自己接得上。是比「晚安(goodnight)」輕的小憩——同 session 繼續、不下線、不寫 perturbation。
@@ -7,11 +7,8 @@ description: |
   核心血證:**compact 只動 in-memory 對話史,磁碟檔完整存活。所以重要記憶『必落磁碟』,別只靠 /compact focus(會丟細節)。**
 
   觸發詞 (case-insensitive substring):
-  - 小歇片刻 / 小歇 / 小憩 / 歇一下 / 喘口氣
-  - compact / 壓縮 / 壓縮對話 / 壓縮記憶 / 整理記憶 / 保留記憶 / 記憶保命
-  - context 快滿 / context 要爆 / 快到上限 / 該 compact 了
-  - compact 前 / 該怎麼 compact / 指定 compact
-  - ⏰ **第二步（醒來接回）**：午安大小姐 / 午安 / 接回 / 我醒了 / 小歇結束 / compact 完了
+  - 午休一下
+  - ⏰ **第二步（醒來接回）**：午安大小姐
 
 related:
   - .claude/skills/ucl-letters-to-self/SKILL.md | letter 機制(本 skill 的記憶載體之一) + 跨 compact 對話接力

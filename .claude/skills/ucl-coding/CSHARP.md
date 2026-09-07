@@ -44,11 +44,13 @@
 > **Unity 失焦時不會自動重編，而 agent 寫檔幾乎都在失焦下發生** —— 所以「改完等它自己編」
 > 在 agent 的工作流裡是不存在的事。改完 .cs ⇒ **一律送 `Cmd_Recompile`**，這是確保有編到的唯一手勢。
 >
-> 而要**等到編完並拿到錯誤清單**，用 python 子命令（不是 `run Recompile`）：
+> 而要**等到編完並拿到錯誤清單**（不是 `ucmd run Recompile` —— 那只保證觸發送到了）：
 >
 > ```bash
-> run_cmd.py --persona <me> recompile
+> senate cmd unity-recompile --arg persona=<me>
 > ```
+>
+> 它拿**送出觸發的那一刻**當基準，等到晚於基準且編譯結束的那一份才印。
 >
 > 它會：記下 pre-mtime → 送 Cmd → **等 `.compile_status.json` 推進且 `in_progress=false`** → 印 errors/warnings。
 > 而 `senate ucmd run Recompile` 只是**丟出請求就返回**（Cmd_Recompile 刻意這樣設計 —— domain reload 會殺掉
@@ -67,9 +69,13 @@
 > ⛔ 我當時把工具印的提示（「切到前景再試」）當成量到的真因寫進本 skill —— **那是錯的，Tim 當場更正**。
 > 提示是候選解釋，不是讀數；**沒量過的因果不要寫成血證**。
 >
-> ⇒ 判準：**編譯過了的唯一憑據是 `check_compile.py` 沒標 STALE**（時間戳晚於你最後一次存檔）。
-> 還標著就是還沒編到 —— 再送一次 `recompile`，或直接讀 `.compile_status.json` 的時間戳，
-> **不要把「請求被收下」讀成「編譯完成」**。
+> ⇒ 判準：**編譯過了的唯一憑據是一份「晚於你送出觸發那一刻」的狀態**。
+> 2026-09-07 起這件事由 `senate cmd unity-recompile` 一次做完：它拿**送出時刻**當基準，
+> 等到晚於基準且 `in_progress=false` 的那一份才印；等不到就 exit 4 明說「沒有量到」，
+> ⛔ **不退回印上一次的快照**。
+> **不要把「請求被收下」讀成「編譯完成」** —— 那是這一格反覆咬人的形狀。
+> ⚠ 舊的 `check_compile.py --watch` 正是踩在這上面（TASK-0154）：它只看 `in_progress=false`，
+> 而觸發還沒開始時那已經是 false ⇒ 回上一次的快照，**且不印 STALE**。
 > 排查編譯錯誤的完整手勢 → skill `ucl-compile-error`。
 
 ## ⛔ C# 專屬硬規則

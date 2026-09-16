@@ -4,7 +4,9 @@ description: |
   Unity compile error 排查。當改完 .cs 後懷疑編譯有錯、agent 改了腳本要驗收、或使用者問「編譯有錯嗎」「CS0103 / CS0117 / CS1503 / CS0246」「assembly / asmdef」相關問題時用本 skill。
   主入口是 Senate CLI：`senate cmd unity-recompile`（觸發＋等到那一趟編譯結束）／
   `senate cmd unity-compile-status`（只讀現況，不需要 Editor）。
-  python `check_compile.py` 仍在（尚未退場），保留 `--fallback-log` / `--editor-alive` 那幾格 CLI 還沒移的能力。
+  ⛔ python `check_compile.py` **已於 2026-09-10 整支刪除**（檔案不存在了）——
+  `--fallback-log` / `--editor-alive` 那兩格**沒有搬過去** —— ⚠ 而它們的處置**不一樣**，見下面兩節：
+  `--fallback-log` 真的沒有替代品；**`--editor-alive` 有**（它量的資料源一直在，死的只是 python 包裝）。
 trigger: { on_files: ["*.cs"], on_intent: ["編譯錯", "compile error", "CS0103", "CS0117", "CS1503", "CS0246", "asmdef", "assembly"] }
 ---
 
@@ -35,20 +37,22 @@ senate cmd unity-compile-status
 （Unity 那側 LangVersion 9、nullable 沒開；Senate 那側 nullable 開著且警告當錯誤）。
 **兩個宿主的尺不同形，而且不可以合成一把。**
 
-### python 那支還在（**尚未退場**），這幾格 CLI 還沒移
+### ⛔ python 那支已退場（2026-09-10，Tim 拍板）—— 而**兩格能力沒有搬過去**
 
-```bash
-# .compile_status.json 不存在 → fallback 解 Editor.log（CLI 沒移）
-python <UCL_Core>/Tools~/AgentCommands/check_compile.py --errors-only --fallback-log
+`check_compile.py` **已整支刪除**（2026-09-10）—— 檔案不存在了，跑它會得到 `No such file`。
+⛔ 先前一度改成 exit 2 的指路 stub，同日 Tim 判定直接刪 —— 保留 stub 的唯一理由是「回 0 會讓呼叫端把『什麼都沒做』讀成『檢查通過』」，
+而 `No such file` 是**非零退出＋一句話說清楚**，同樣不會被讀成綠燈（TASK-0154：沒發生的事看起來像綠燈）。
 
-# Editor 還在不在 tick（純 stat 心跳檔，不送 Cmd）（CLI 沒移）
-python <UCL_Core>/Tools~/AgentCommands/check_compile.py --editor-alive
+| 舊用法 | 現在走哪 |
+|---|---|
+| `--errors-only` / `--format json` / `--max` | `senate cmd unity-compile-status`（本地跑，含 ErrorLog 交叉對帳） |
+| `--watch` | `senate cmd unity-recompile --arg persona=<me>`（送出時刻＝基準，等那一趟結束） |
+| `--strict-fresh` | 同上 —— `unity-recompile` 天生只收「晚於基準」的那一份 |
+| **`--fallback-log`**（`.compile_status.json` 不存在時解 Editor.log） | ⛔ **沒有替代品**。`unity-compile-status` 在狀態檔不存在時說「**沒有讀數**」而不是 0 errors ⇒ 那個情境的答案是「沒有量到」 |
+| **`--editor-alive`**（心跳停跳偵測） | ⭐ **有替代品，而且更便宜**：直接 stat `<data_root>/ChatTavern/bartender/_heartbeat.txt`（酒保 daemon 每 0.5s 寫一拍；>1.5s 沒動＝沒在 tick）。⚠ 2026-09-10 本欄原寫「沒有替代品」，那是**窄報** —— 被刪的是 python 包裝，那支的實作本來就只是 stat 這個檔 |
 
-# CI / 腳本：狀態沒涵蓋改動就 exit 4（CLI 這側改由 unity-recompile 的 exit 4 表達）
-python <UCL_Core>/Tools~/AgentCommands/check_compile.py --errors-only --strict-fresh
-```
-
-> 🩸 **⛔ `check_compile.py --watch` 已知會給假綠燈（TASK-0154）——改走 `unity-recompile`。**
+> 🩸 **⛔ `check_compile.py --watch` 曾給假綠燈（TASK-0154）—— 那支已於 2026-09-10 整支退場。**
+> 血證留著，因為**這個形狀會換工具重來**：
 > 它的結束條件只有 `in_progress=false`，而**觸發還沒開始時它已經是 false**
 > ⇒ 直接返回上一次的快照。2026-09-07 實測：送出 recompile 後立刻 `--watch`，
 > 印出的是 **三天前**（`2026-09-04T17:14`）那份，Errors: 0，**而且沒印 STALE 橫幅**
@@ -80,12 +84,26 @@ python <UCL_Core>/Tools~/AgentCommands/check_compile.py --errors-only --strict-f
 > 主執行緒長工 / Editor 關閉期間都會停跳。而且停跳只有在**恢復的那一拍**才寫得出來：
 > 進行中的凍結沒有紀錄，Editor 死掉不再回來則永遠不寫。**沒有條目 ≠ 沒有停跳。**
 
-## 💓 `--editor-alive` — Editor 還在 tick 嗎（純 stat 一個檔，不送 Cmd）
+## 💓 「Editor 在不在 tick」 — ⭐ **這一格沒有消失：stat 心跳檔就是答案**
 
 ```bash
-python <UCL_Core>/Tools~/AgentCommands/check_compile.py --editor-alive
-# exit 0 = 在 tick / 1 = 沒在 tick / 3 = 無心跳檔
+# 心跳檔（酒保 daemon hook 在 EditorApplication.update，每 0.5s 寫一拍）
+stat -c %y <data_root>/ChatTavern/bartender/_heartbeat.txt   # 或 ls -la
+#   距今 <= 1.5s ⇒ Editor 在 tick／> 1.5s ⇒ 沒在 tick／檔案不存在 ⇒ 判不出來（daemon 沒跑過）
+# 最近的停跳台帳（心跳只答「此刻」，這個答「什麼時候凍過、凍多久」）：
+#   <data_root>/ChatTavern/bartender/_heartbeat_stalls.jsonl
 ```
+
+🩸 **這一節 2026-09-10 原本寫著「沒有替代品」—— 那是我自己寫的窄報，同一天被自己推翻。**
+被刪的 `check_compile.py --editor-alive` 實作是「**純 stat 一個檔，不送 Cmd**」
+（它的註解自己寫了為什麼不送：Cmd 探針要 2.13s 空閒／13.13s 編譯中）
+⇒ **死的是包裝，資料源一直在**。而窄報之所以活得久，是因為
+**「這格沒救了」聽起來像謹慎，它不會讓寫的人付出任何代價** —— 代價是別人不再去打開那個檔看一眼。
+
+⚠ 舊那支多做的一件事沒了：它會**併印最近停跳**。要那一半就自己讀 `_heartbeat_stalls.jsonl`。
+⚠ 另一條路仍然成立、但比較貴：**`senate cmd unity-recompile` 是否逾時**（逾時會印 `delegate_failure = timeout`，
+且**刻意不去讀上一輪的回傳檔** —— 逾時代表它沒被更新，讀到的會是上一輪那份「格式完整、數字合理」的舊快照）。
+⇒ 那是**送一支 Cmd 去探**，Editor 忙的時候要等到逾時。**能 stat 就不要送 Cmd。**
 
 用途：**「現在叫 Editor 做事會不會等」**。編譯 / domain reload 期間整個 update 迴圈不跑 → 心跳自然停。
 比送一支 Cmd 探針快得多（探針要 2s 空閒 / 13s 編譯中）。順帶印最近一次停跳（時間 + 停多久）。
@@ -98,7 +116,9 @@ python <UCL_Core>/Tools~/AgentCommands/check_compile.py --editor-alive
 > 🩸 2026-08-05：我就是這樣被騙 40 分鐘 —— 兩次 `RequestScriptCompilation()` 都被受理
 > （Editor.log 有 `Requested through public api`），但後面**沒有** `Starting: bee_backend … ScriptAssemblies`，
 > 編譯連開始都沒有；而探針一路印綠燈。
-> **要問「我的改動編了沒」跑 `--errors-only`（新鮮度守衛會答），不是看 `--editor-alive`。**
+> **要問「我的改動編了沒」跑 `senate cmd unity-recompile`（它拿送出時刻當基準，等到那一趟結束才印；
+> 另有 `stale_sources` 答「有幾個 .cs 比組件新」），不是看心跳。**
+> ⚠ 原文寫的是 `--errors-only` —— 那是被刪那支的旗標（2026-09-10 更正）。
 
 ## 順序
 

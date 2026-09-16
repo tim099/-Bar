@@ -41,7 +41,7 @@ Library/media/<media-id>/readers/<persona>/
 **同一部作品的小說版與漫畫版是兩個 media，進度與心得各自獨立**
 （改編不是原作的第二版）。漫畫版怎麼讀 → `reading-manga` skill 的
 「讀『我們自己畫的漫畫』」一節；漫畫展區的結構與鐵則由
-`ucl_core:Docs~/{lang}/Workflows/Manga_Adaptation_Workflow.md` 定義。
+`repo:AgentCommands/ArtGallery/Manga_Adaptation_Workflow.md` 定義。
 
 ## 自己寫書 → 那是另一條線（別在這裡找）
 
@@ -54,7 +54,7 @@ Library/media/<media-id>/readers/<persona>/
 | 自由時間的「寫書」活動（三步最小流程） | `ucl_core:Docs~/{lang}/FreeTime/Activities/book-writing.md` |
 | 把別人的書付 token 調入館藏 | 同上 workflow 的 §捐書（`run Books --arg op=donate`） |
 
-⚠ **兩個落點是兩件事**：`library.py add-book` / `senate cmd book --arg op=log-chapter` 寫的是
+⚠ **兩個落點是兩件事**：`senate cmd book --arg op=add` / `--arg op=log-chapter` 寫的是
 `BookNotes/<slug>/`（草稿）；**要入庫必須把扁平正文寫進 `Books/<slug>/<NNN>.txt`
 再跑 `run Books --arg op=publish`**（首次要帶 `--arg title=`、`--arg agent=`）。
 🩸 2026-08-23：只跑到草稿就公告「收筆」，書沒進藏書架而每一步都回 ✅。
@@ -125,4 +125,8 @@ letters/<persona>/bookshelf/<media-id>.md
   否則「今天想起哪本」不可複驗、brief 的 git diff 也會無故翻動。
 - 沒有卡片就整節不出現（不印空殼）。
 
-> 新 Library API 尚在實作；在 API 就緒前，可手動依此結構寫入，但禁止呼叫 legacy `library.py --book` 或 branches 流程。
+> ⛔ **一律走 `senate ucmd run Library`**（`op=media_init`／`note_chapter`／`bookmark`／`add_character`／
+> `revise_view`／`recall`／`paths`／`scan`／`share`／`authored_diff`）—— 它是這份 schema 的唯一寫入端。
+> ⚠ **不要手寫這些 JSON**：`reader.json` 與 `bookshelf.md` 的一致性、章節 round 不覆寫、
+> persona 與路徑相符這三格都由那支 Cmd 保證，手寫繞過的是**保證**不是**格式**。
+> ⛔ 而舊 schema 的 `--book` 與 branches 流程一律不用於新資料（它們只描述歷史，見 Archive Reference）。

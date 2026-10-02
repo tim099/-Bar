@@ -3,7 +3,7 @@ trigger: { on_intent: ["學到", "經驗", "lesson", "紀錄筆記", "教訓", "
 name: agent-lessons-log
 description: |
   跨 agent 共享 lesson 知識庫 — 累積設計坑、debug 教訓、workflow 經驗。觸發詞包含：學到 / 經驗 / lesson / 紀錄筆記 / 教訓 / a-ha / 筆記 / 自律紀錄 / 撞坑。
-  agent 跨 session 撞到既有教訓覆蓋的問題前先讀本 skill；新 lesson 走 `Cmd_NoteLesson` 自動 append jsonl，避免遺忘 + 跨 agent 同步知識。
+  agent 跨 session 撞到既有教訓覆蓋的問題前先讀本 skill；新 lesson 走 `senate cmd note-lesson` 自動 append jsonl，避免遺忘 + 跨 agent 同步知識。
 ---
 
 # Agent Lessons Log
@@ -25,7 +25,7 @@ description: |
 - **L11 [defensive cmd]**: cmd_type alias **必須雙層**（Python submit + C# Registry），stuck cmd 直寫 queue 會繞過 Python
 - **L12 [routing exception]**: Noisy log（戰鬥 log）category routing 設 **m_Exclusive=true**，additive 會「買一送一」洗 main（L2 default 仍適用一般 chat）
 - **L13 [push notification]**: turn-based agent 缺 push → per-agent **last_read_seq state** 補 Discord 紅點，首次跑要 baseline mark-read
-- **L14 [catchup audit]**: 判別他 agent 程序違規前必掃 **events/ + messages/** 兩 dir（只看 messages tail 會漏 task_create/done system events，會被反將）
+- **L14 [catchup audit]**: 判別他 agent 程序違規前必掃 **events/ + messages/** 兩 dir（只看 messages tail 會漏 events/ 的 system events —— 舊 quest 事件資料仍在，會被反將）
 - **L15 [bash blast radius]**: tavern post body 含 backtick / `~/` 永遠走 temp file + `$(cat)` 不直接夾 `--arg`；2026-05-15 Avada Kedavra 事件起源
 - **L16 [layer mixing]**: 「外觀 OK ≠ 真的 OK」家族 — Syntactic / Identity / Status / Content 四層各自需要對應 verify 工具，撞同類盲點 2 次 = pattern 不是巧合
 - **L17 [tool-survey first]**: 推薦方案前 MUST 先 ask/grep 用戶實際工具棧 (CLI vs GUI vs IDE) — 跳過 survey 直接進方案 = 用戶被迫驗證假設棧
@@ -34,28 +34,14 @@ description: |
 
 ## 自動化筆記入口（agent 自律）
 
-撞到設計坑 / debug 教訓 → 立刻走 cmd 紀錄不靠記憶：
+撞到設計坑 / debug 教訓 → 立刻記一條，不靠記憶（**不需要 Unity Editor**）：
 
 ```bash
-senate ucmd run NoteLesson --persona <me> \
-  --arg body="<短句精華 < 30 字>" \
-  --arg category="<bug|design|workflow|debug|test>" \
-  [--arg actor="<agent_id>"] [--arg title="<一行標題>"] [--arg tags="<逗號分隔>"]
+senate cmd note-lesson --arg persona=<me> --arg category=<bug|design|workflow|debug|test> --arg-file body=<檔：短句精華 < 30 字>
 ```
 
-行為：
-1. append `AgentCommands/Lessons/lessons.jsonl` 一行 JSONL entry (ts/actor/category/body[/title][/tags])
-2. 寫 `AgentCommands/Lessons/_last_lesson.md` 給 caller confirm
-3. 同 body 重複 → skip 防重 (dedupe check)
-4. category 自由欄位（agent 自律分類，譬如 "bug" / "design" / "workflow"）
-5. **`actor` 不給就用 `--persona`**，兩者都沒有才落 `unknown`
-6. `title` / `tags` 是選填；**沒給就不寫那個鍵**（不寫 `""` / `[]` —— 「沒給」與「給了空的」是兩件事）
-7. ⛔ **不認得的參數會被擋下並失敗**（`--arg severity=…`、拼錯的 `--arg autor=…`），
-   **在 append 之前**擋 —— 一旦寫進去，「欄位掉了」就沒有任何一層會喊（TASK-0078／BUG-42）
-
-> 🩸 為什麼有第 5–7 條：舊版 `actor` 直接落 `unknown`（`--persona` 明明拿得到），
-> 而 `title` / `tags` 傳了會被**靜默丟棄** —— 回 Success、jsonl 也真的多一行，
-> **成功與掉欄位長得一模一樣**。
+完整說明（title／tags／actor、寫到哪、去重只看 body、會被擋下的參數）：
+`senate cmd doc --arg op=show --arg name=Lesson_Log`
 
 ## Promote curated SKILL.md 流程
 

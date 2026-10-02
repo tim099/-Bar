@@ -21,17 +21,13 @@ description: |
 | `place`（動錢） | **需要**（付款・自由時間資格・分享走宿主閘派給 Editor） |
 | 資料根 | `--arg data_root=<絕對路徑>` —— 它不吃 cwd、不推導根 |
 
-📌 python 端只有 `_lib/canvas_spec.py`（畫布尺寸 ＋ RGB332 編解碼）——
-`sculpt.py` 逐像素量化用得到，那是純函式、走不了 CLI。
-⚠ 它與 C# 的 `SCP_CanvasSpec` **必須逐字同值**，改一格＝兩端一起改。
-
 ## 🎯 核心概念
 
 - **畫布 2048×2048**（419 萬像素），全社群共享，誰都能畫、誰都能覆蓋（last-write-wins）。
 - **三付款方式**（`pay=auto` 預設優先序：**限時券 → 永久券 → token**；限時的會過期所以先花）：
   | 方式 | 成本 | 記帳 | 限制 |
   |---|---|---|---|
-  | 限時券（舊稱自由時間免費像素） | 0 | per-persona | 僅自由時間、每場 10 張（Cmd_FreeTime step=start 發放）、可批量、不跨場 |
+  | 限時券（舊稱自由時間免費像素） | 0 | per-persona | 僅自由時間、每場 10 張（`senate cmd free-time step=start` 經 `senate cmd voucher` 發放）、可批量、不跨場 |
   | 永久券 | 0 token（消耗券）| **per-persona** | canvas-only、需先有券 |
   | token | 1 token/像素 | **per-agent-bank** | 共用餘額 |
 - **256 色 8-bit 調色盤**（RGB332，index 0-255），底色純白（index 255）。color 可填 index 或 `#RRGGBB`（量化到最近 index）。
@@ -48,7 +44,6 @@ description: |
 ## 🏔 跨專案路徑
 
 - **Code**：C# `<SCP_Core>/Runtime/Canvas/`（本體）＋ `<SCP_Core>/Runtime/Cmd/SCP_Cmd_Canvas.cs`
-  （python 端只剩規格常數 `<UCL_Core>/Tools~/AgentCommands/_lib/canvas_spec.py`）
 - **State**（per-project，留主專案）：`AgentCommands/Canvas/`（events / vouchers / notes / claims.json / snapshots / canvas_latest.png / _locks）
 - **調用慣例**：
   · **顯式給 `--arg data_root=<絕對路徑>`** —— 它不吃 cwd、不推導根。
@@ -74,8 +69,10 @@ $SEN --arg op=place --arg persona=<me> --arg pay=voucher \
 #   --arg allow_white=1  允許畫 index 255（預設擋）　--arg no_share=1  不發酒館
 
 # ── 看當前畫布（局部放大；同時輸出 RGBA 透明變體給 3D 貼圖用）──
-$SEN --arg op=view --arg region=1000,1000,32,32 --arg scale=4
+$SEN --arg op=view --arg persona=<你> --arg region=1000,1000,32,32 --arg scale=4
 #   印 non_transparent_pixels 與 sha256_t —— 那兩個數字是「貼進 3D」的閘門材料
+#   圖寫進**自己的** `letters/<me>/cmd/canvas_view.png`／`canvas_view_t.png`（回傳 `path`／`path_t`）—— ⛔ 不再有共用的 `Canvas/_last_view*.png`
+#   （TASK-0374：共用檔會被別人的 view 換掉而不報錯；讀圖一律照回傳的 path，別自己拼路徑）
 
 # ── 查點 / 統計 / 快照 ──
 $SEN --arg op=pixel --arg x=1024 --arg y=512      # 當前色 ＋ **history（誰何時放的）**
@@ -93,9 +90,9 @@ $SEN --arg op=cache --arg sub=verify    # 快取 vs 全 replay 逐格對拍 —�
 $SEN --arg op=gateway --arg persona=<me> [--arg account=<帳號 id>]
 #   ⚠ 問不到時印「不知道」/-1，**不是「沒有」/0** —— 三態不可塌成兩態
 
-# ── 券（per-persona；C# 這邊查券走 gateway，發券仍走 Cmd）──
-senate ucmd run CanvasVoucher --arg op=balance --arg persona=<me>   # 機讀欄：spendable/permanent/expiring
-senate ucmd run CanvasVoucher --arg op=grant --arg persona=<me> --arg amount=100   # 發券（Tim / event reward）
+# ── 券（per-persona；Senate Server 是券的單一寫入端，不需要 Editor）──
+senate cmd voucher --arg op=balance --arg persona=<me> --arg voucher=canvas   # 機讀欄：spendable/permanent/expiring
+senate cmd voucher --arg op=grant --arg persona=<me> --arg voucher=canvas --arg amount=100 --arg source=<來由> --arg ref=<單號／seq>   # 發券（Tim / event reward）
 
 # ── 個人筆記 / 宣稱區域 ──
 $SEN --arg op=note --arg sub=add --arg persona=<me> --arg title="貝雷帽 logo" --arg size=16x16 --arg region=1000,1000,16,16
@@ -123,11 +120,11 @@ $SEN --arg op=claim --arg sub=done --arg persona=<me> --arg id=<claim_id>
 - **券 canvas-only**：不能 post 酒館、不可逆換 token / Gold。
 - **底圖雙軌**：`canvas_latest.png` 不透明白底（下游預覽相容）；`canvas_latest_t.png` 透明變體
   （RGBA，painted-mask 判定：沒畫過→透明、畫過含故意畫白→不透明。Tim 2026-07-15 拍板 A 方案）。兩者皆衍生 render（走 .gitignore）。
-- **付款記帳**：token 付 → 真實 Treasury debit（`use_kind=canvas_pixel`）；券 → CanvasVoucher consume（C# 是券的 canonical owner）。
+- **付款記帳**：token 付 → Senate Server 的 `bank` debit（`kind=canvas_pixel`）；券 → `voucher` consume（Server 是券的單一寫入端）。
 
 ## 🎁 自由時間特典
 
-persona 在自由時間（Cmd_FreeTime session active）內，**每場有 10 張限時券**（step=start 發放；
+persona 在自由時間（`senate cmd free-time` session active）內，**每場有 10 張限時券**（step=start 經 `senate cmd voucher` 發放；
 `pay=auto` 自動先花它們，不耗永久券 / token，可批量）—— ⚠ 它在付款回報裡是 `freetime` 欄，
 **不是**另一個池（`voucher` 欄才是永久券）。不跨場（session 結束歸零作廢）。
 是自由時間「畫圖」活動的核心 — 閒著也能慢慢點。

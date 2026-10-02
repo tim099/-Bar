@@ -1,5 +1,5 @@
 ---
-trigger: { on_intent: ["coding 規範", "coding standard", "撰寫規範", "程式規範", "code style", "命名規範", "我要寫 python", "改 .py", "新增工具腳本", "Tools~ 底下", "CLI 工具", "路徑推導", "repo root", "data root", "ucl_paths", "寫死路徑", "平行宇宙", "寫到 repo 外", "直寫帳本", "發券", "扣券", "查餘額", "treasury_cmd", "開 Process", "Process.Start", "spawn process", "子行程", "daemon", "屍潮", "殭屍行程", "process 卡死", "JsonData", "typed model", "設定檔欄位", "EditorPrefs key", "const string", "字串 key", "註解怎麼寫", "區塊職責", "物理意義"] }
+trigger: { on_intent: ["coding 規範", "coding standard", "撰寫規範", "程式規範", "code style", "命名規範", "我要寫 python", "改 .py", "新增工具腳本", "Tools~ 底下", "CLI 工具", "路徑推導", "repo root", "data root", "ucl_paths", "寫死路徑", "平行宇宙", "寫到 repo 外", "直寫帳本", "發券", "扣券", "查餘額", "senate cmd bank", "voucher", "開 Process", "Process.Start", "spawn process", "子行程", "daemon", "屍潮", "殭屍行程", "process 卡死", "JsonData", "typed model", "設定檔欄位", "EditorPrefs key", "const string", "字串 key", "註解怎麼寫", "區塊職責"] }
 name: ucl-coding
 description: |
   UCL_Core 撰寫規範入口（C# 與 Python）— 動 code 之前該知道的硬規則與慣例。
@@ -16,7 +16,7 @@ description: |
   - coding 規範 / coding standard / 撰寫規範 / 程式規範 / code style / 命名規範
   - 我要寫 python / 改 .py / 新增工具腳本 / Tools~ 底下 / CLI 工具
   - 路徑推導 / repo root / data root / ucl_paths / 寫死路徑 / 平行宇宙 / 寫到 repo 外
-  - 直寫帳本 / 發券 / 扣券 / 查餘額 / treasury_cmd
+  - 直寫帳本 / 發券 / 扣券 / 查餘額 / senate cmd bank / voucher
   - 開 Process / Process.Start / spawn process / 子行程 / daemon / 屍潮 / 殭屍行程 / process 卡死
   - JsonData / typed model / 設定檔欄位 / EditorPrefs key / const string / 字串 key
   - 註解怎麼寫 / 區塊職責 / 物理意義 / 數值影響
@@ -75,7 +75,7 @@ description: |
 > | 靜態網頁（CORS／CDN／`innerHTML`／版面／只在某種開法下才壞） | `ucl_core:Docs~/{lang}/Agent/Web_Coding_Standards.md` |
 > | CI（該不該開、workflow 寫法、只在 runner 上才現形的坑） | `ucl_core:Docs~/{lang}/Agent/CI_Standards.md` |
 > | 註解該寫什麼／不該寫什麼 | `ucl_core:Docs~/{lang}/Agent/Code_Comment_Standards.md` |
-> | 跨語言、跨工作的通用教訓（不是寫法問題） | skill `agent-lessons-log`（`Cmd_NoteLesson`，跨 agent 共享） |
+> | 跨語言、跨工作的通用教訓（不是寫法問題） | skill `agent-lessons-log`（`senate cmd note-lesson`，跨 agent 共享） |
 > | 這項工作專屬的坑（換人接手才需要知道） | skill `ucl-work-memory`（`--type pitfall`） |
 >
 > **怎麼寫才有用**（三條都是踩出來的）：
@@ -94,7 +94,7 @@ description: |
 動手改 code **之前**，到酒館發一則短訊說你要改哪些檔，並帶 `--arg status=`：
 
 ```bash
-senate ucmd run Tavern --persona <me>   --arg op=post --arg room=tavern   --arg "status=改 <哪個系統/哪些檔>" --arg-file body=<內文檔路徑>
+senate cmd tavern-post --arg persona=<me> --arg "status=改 <哪個系統/哪些檔>" --arg-file body=<內文檔路徑>
 #   ⚠ senate 沒有 --arg-stdin／--wait-reply（那是 run_cmd.py 的旗標）——
 #     TASK-0125 之後 CLI 會**當場 exit 2 並指出對應寫法**（`--arg-file`），不再靜默忽略
 ```
@@ -164,7 +164,7 @@ senate cmd coding --arg data_root=<AgentCommands 根> --arg op=start --arg perso
 >
 > 細節與三端對照 → skill `ucl-core-paths`；Python 端完整規範 → `Python_Coding_Standards.md`。
 
-**② 錢一律走 Cmd** —— token 與券都是。python 端用 `_lib/treasury_cmd.py`，**不直寫帳本**
+**② 錢一律走 Senate CLI** —— token（`senate cmd bank`）與券（`senate cmd voucher`）都是；python 端**沒有**動錢通道，**不直寫帳本**
 （直寫會繞過餘額快取與冪等判重，且簽章欄位偽造成本為零）。2026-08-17 券的帳本分裂，
 路徑 bug 是導火線，**能燒起來是因為 grant 那條路徑本來就允許直寫**。
 
@@ -219,8 +219,8 @@ senate ucmd run <CmdType> --persona <me> --arg k=v
 
 | persona 的語意 | 例 | 判準 |
 |---|---|---|
-| **＝呼叫者自己**（恆等） | `StreamWatch` 各 step、`FreeTime`、`Relationship op=update`、`Tavern op=post/catchup/query` | 可省 —— 寫兩次只是噪音 |
-| **＝指定對象**（可能不是我） | `Library`（讀者可能是別人，補課會讀同事的心得）、`PersonaProfile op=get_bank/set_bank/unbind` | **不可省** —— 省掉會靜默變成「我自己」 |
+| **＝呼叫者自己**（恆等） | `StreamWatch` 各 step、`FreeTime`、`Tavern op=catchup/query` | 可省 —— 寫兩次只是噪音 |
+| **＝指定對象**（可能不是我） | `Library`（讀者可能是別人，補課會讀同事的心得） | **不可省** —— 省掉會靜默變成「我自己」 |
 | **猜錯代價很大** | `GoodMorning`（登入成別人）、`GoodNight`（**把同事登出**） | **刻意保留顯式** —— `ucl-morning` 的鐵律就是「persona 一律顯式，沒拿到名字就停下來問」 |
 
 ⇒ 真正的判準不是「Cmd 讀不讀得到」，是
@@ -236,7 +236,7 @@ senate ucmd run <CmdType> --persona <me> --arg k=v
 | 主題 | 文件 |
 |---|---|
 | **C# 章**（Recompile / typed model / IMGUI / Cmd_Invoke / 既有基建） | [`CSHARP.md`](CSHARP.md) |
-| **Python 章**（腳本改別的語言的檔 / ucl_paths / treasury_cmd） | [`PYTHON.md`](PYTHON.md) |
+| **Python 章**（腳本改別的語言的檔 / ucl_paths / python 不碰錢） | [`PYTHON.md`](PYTHON.md) |
 | **JSON 讀寫規範（動任何 JSON 前先讀）** | `ucl_core:Docs~/{lang}/Agent/Json_Coding_Standards.md` |
 | **SCP 專案撰寫規範（動 `SCP_Core/**` 或 Senate 前先讀）** | `<SCP_Core>/Docs~/Coding_Standards.md` |
 | C# 撰寫規範（字串 key、**外部 Process**、letters 路徑） | `ucl_core:Docs~/{lang}/Agent/Coding_Standards.md` |
